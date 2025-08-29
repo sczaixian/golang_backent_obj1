@@ -1,16 +1,15 @@
+package logging
 
-
-package logger
-
-
-type Logger interface{
-	Debugf(format string, data ... interface{})
-
-	Infof(format string, data ... interface{})
-
-	Warnf(format string, data ... interface{})
-
-	Errorf(format string, data ... interface{})
-
-	Panicf(format string, data ... interface{})
+// Logger 日志接口
+type Logger interface {
+	// Debugf debug
+	Debugf(format string, data ...interface{})
+	// Infof info
+	Infof(format string, data ...interface{})
+	// Warnf warn
+	Warnf(format string, data ...interface{})
+	// Errorf error
+	Errorf(format string, data ...interface{})
+	// Panicf panic
+	Panicf(format string, data ...interface{})
 }
