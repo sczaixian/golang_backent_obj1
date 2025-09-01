@@ -1,0 +1,103 @@
+
+
+
+
+//  ================  部署  =====================
+
+status	0x1 Transaction mined and execution succeed
+transaction hash	0x86fb6d05a9ef8eda024f7156f8ca2adaed27fc6f9a26fc284b29dbbb581a5b62
+block hash	0x388da8329e14dea11860854b799d4cfa11cc7ff46afa1becb5cf889058b3e77c
+block number	9107986
+contract address	0xacd5e52dc545fa329ea875bdbbbce91ca4743eee
+from	0x3E0bDb54f94D735dDCf8D2074c852a8C22914aA7
+to	FundMe.(constructor)
+gas	1188117 gas
+transaction cost	1177604 gas 
+input	0x608...00168
+decoded input	{
+	"uint256 _lockTime": "360"
+}
+decoded output	 - 
+logs	[]
+raw logs	[]
+
+
+
+status	0x1 Transaction mined and execution succeed
+transaction hash	0xc709c9a9f2938320123de12107bbb6fef9494210abc573ce5364a954225a22a0
+block hash	0x27ed7c172b2648a530d8be811412798a8c1e204d1f56df80301d0d7766355112
+block number	9108032
+contract address	0x267dbd57eba5f9f1d9d1574880842c556f3d5985
+from	0x3E0bDb54f94D735dDCf8D2074c852a8C22914aA7
+to	FundMe.(constructor)
+gas	1188117 gas
+transaction cost	1177604 gas 
+input	0x608...00e10
+decoded input	{
+	"uint256 _lockTime": "3600"
+}
+decoded output	 - 
+logs	[]
+raw logs	[]
+
+
+
+status	0x1 Transaction mined and execution succeed
+transaction hash	0xa6d917b7eb68ccb339d2f21a5180f6e84525fc2b724f8c12c81b0b5cc2deabe1
+block hash	0xacc172bb3fa921a53de85b4eb0abe2d9697bdc15f70beaa93f1d95ec5c57b69b
+block number	9108071
+contract address	0xb9745d3bdeaf959e3f99616f2cce45cf48175a9f
+from	0x3E0bDb54f94D735dDCf8D2074c852a8C22914aA7
+to	FundMe.(constructor)
+gas	1284118 gas
+transaction cost	1272849 gas 
+input	0x608...14aa7
+decoded input	{
+	"uint256 _lockTime": "360",
+	"address dataFeedAddr": "0x3E0bDb54f94D735dDCf8D2074c852a8C22914aA7"
+}
+decoded output	 - 
+logs	[]
+raw logs	[]
+
+
+
+
+status	0x1 Transaction mined and execution succeed
+transaction hash	0xec4453b5d98c8793756e9851ef34d2c31c7c890df428e369a1ed52bf2f53eb21
+block hash	0xce773cb4d7a818b2457b4bfa3f4270061668bd2c1f2d163f571a617a6d4d27ad
+block number	9108090
+contract address	0x34d3c1bdaa57a48e459cea6df4a7a333c1f2ca50
+from	0x3E0bDb54f94D735dDCf8D2074c852a8C22914aA7
+to	FundMe.(constructor)
+gas	1284118 gas
+transaction cost	1272849 gas 
+input	0x608...14aa7
+decoded input	{
+	"uint256 _lockTime": "360",
+	"address dataFeedAddr": "0x3E0bDb54f94D735dDCf8D2074c852a8C22914aA7"
+}
+decoded output	 - 
+logs	[]
+raw logs	[]
+
+
+
+
+
+
+//  ================  存入 0.01ETH  =====================
+status	0x1 Transaction mined and execution succeed
+transaction hash	0x552968edc9a6f6670b8f2ab2838fb48604b174b4bbac2953a1c1e853b7f16e57
+block hash	0x6d542a504e3b67f4f4743e0962f4aaa0fd883a0df0b454006ada2d07187146ed
+block number	9108037
+from	0x3E0bDb54f94D735dDCf8D2074c852a8C22914aA7
+to	FundMe.fund() 0x267dbd57eba5f9f1d9d1574880842c556f3d5985
+gas	76720 gas
+transaction cost	75836 gas 
+input	0xb60...d4288
+decoded input	{}
+decoded output	 - 
+logs	[]
+raw logs	[]
+value	10000000000000000 wei

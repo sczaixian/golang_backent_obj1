@@ -1,9 +1,26 @@
 
+// ----------------------- 内存对齐 ---------------------------------
+type Inefficient struct {
+    a bool    // 1
+    // 7字节padding（因为int64需要8字节对齐）
+    b int64   // 8
+    c int32   // 4
+    // 4字节padding（因为结构体需要8字节对齐，所以总大小必须是8的倍数）
+}
+// 总大小：1+7+8+4+4=24
+type Efficient struct {
+    b int64   // 8
+    c int32   // 4
+    a bool    // 1
+    // 3字节padding（因为结构体需要8字节对齐）
+}
+// 总大小：8+4+1+3=16
+// 按字段大小降序排列：将较大的字段放在前面，较小的字段放在后面
+// 相关字段放在一起：在考虑内存对齐的同时，也要考虑代码可读性
 
 
 
-
------------------------DAO---------------------------------
+// -----------------------DAO---------------------------------
 DAO层位于​​分层架构的数据访问层​​，介于业务逻辑层（Service）与数据库之间
 它抽象了数据操作细节，使业务逻辑无需关心数据如何存储或检索，仅通过接口调用DAO提供的方法
 数据访问层​​的核心组件，负责封装所有与数据库或其他持久化存储的交互逻辑。
@@ -217,3 +234,77 @@ for {
         return
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+func (om *OrderManager) orderExpiryProcess() {
+	// 1. 使用 defer recover 来捕获可能的 panic,防止主协程死掉
+	defer func() {
+		if r := recover(); r != nil {
+			xzap.WithContext(om.Ctx).Error("[Order Manage] dq process recovered: " + fmt.Sprintf("%v", r))
+		}
+	}()
+    for condition {
+        // ....
+    }
+}
+
+如果在函数进入循环 以前 发生 panic， recover函数会捕获，然后xzap写日志，orderExpiryProcess函数 返回 
+如果在函数进入循环 以后 发生 panic， 会立即进入下一次循环（因为有个无限for循环），但是 发生点以后得代码不会执行
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------ json -------------------------
+json.Unmarshal([]byte(result), &listing) 
+[]byte(result) 将字符串 result 转换为字节切片
+ Unmarshal 仅接受字节类型输入
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------ time -------------------------
+time.Now().Unix() 是 Go 语言中用于获取 ​​当前时间的 Unix 时间戳（秒级）​​ 的标准方法
+time.Sleep(1 * time.Second)       <----------- 阻塞当前协程，不影响其他任务
+time.Nanosecond（纳秒）
+time.Microsecond（微秒）
+time.Millisecond（毫秒）
+time.Second（秒）
+time.Minute（分钟）
+time.Hour（小时）
