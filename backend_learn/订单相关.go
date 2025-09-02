@@ -30,7 +30,7 @@ type OrderManager struct {
 	chain string
 
 	// cycle time wheel
-	TimeWheel [WheelSize]wheel   // 多个个轮子  TODO:看看是怎么用的
+	TimeWheel [WheelSize]wheel   
 	// current time wheel index
 	CurrentIndex int64
 

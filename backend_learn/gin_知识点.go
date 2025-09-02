@@ -88,7 +88,7 @@ type Headers struct {
     Domain string `header:"Domain"`
 }
 var h Headers
-c.ShouldBindHeader(&h)[7,11](@ref)。
+c.ShouldBindHeader(&h)
 
 
 

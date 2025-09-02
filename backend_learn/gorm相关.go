@@ -34,7 +34,7 @@ db.Clauses(clause.Locking{Strength: "UPDATE"}).Find(&users)
 适用场景​​：订单支付时锁定库存，防止超卖
 
 
-优化软删除查询性能​​
+// 优化软删除查询性能​​     TODO:
 GORM 默认软删除使用 deleted_at IS NULL，可能导致索引失效。通过重写 QueryClauses 优化
 func (DeletedAt) QueryClauses(f *schema.Field) []clause.Interface {
     return []clause.Interface{BeautifulSoftDeleteQueryClause{}}
