@@ -13,8 +13,8 @@
 
 查询参数
 通过 URL ?后传递的参数（如 /search?keyword=gin），常用方法：
-​​c.Query("key")​​：获取参数，不存在返回空字符串。
-​​c.DefaultQuery("key", "default")​​：参数不存在时返回默认值
+c.Query("key")：获取参数，不存在返回空字符串。
+c.DefaultQuery("key", "default")：参数不存在时返回默认值
 
 r.GET("/search", func(c *gin.Context) {
     keyword := c.Query("keyword")
@@ -29,7 +29,7 @@ r.GET("/search", func(c *gin.Context) {
 
 请求体数据（Request Body）
 
-1. ​​表单数据
+1. 表单数据
     适用于 application/x-www-form-urlencoded或 multipart/form-data：
 
 r.POST("/submit", func(c *gin.Context) {
@@ -50,7 +50,7 @@ var data map[string]interface{}
 json.Unmarshal(body, &data)[9,11](@ref)。
 
 
-JSON 数据​​
+JSON 数据
 使用 ShouldBindJSON绑定到结构体
 if err := c.ShouldBindJSON(&user); err != nil {
     c.JSON(400, gin.H{"error": err.Error()})
