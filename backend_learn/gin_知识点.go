@@ -13,8 +13,8 @@
 
 查询参数
 通过 URL ?后传递的参数（如 /search?keyword=gin），常用方法：
-​​c.Query("key")​​：获取参数，不存在返回空字符串。
-​​c.DefaultQuery("key", "default")​​：参数不存在时返回默认值
+c.Query("key")：获取参数，不存在返回空字符串。
+c.DefaultQuery("key", "default")：参数不存在时返回默认值
 
 r.GET("/search", func(c *gin.Context) {
     keyword := c.Query("keyword")
@@ -29,7 +29,7 @@ r.GET("/search", func(c *gin.Context) {
 
 请求体数据（Request Body）
 
-1. ​​表单数据
+1. 表单数据
     适用于 application/x-www-form-urlencoded或 multipart/form-data：
 
 r.POST("/submit", func(c *gin.Context) {
@@ -38,7 +38,7 @@ r.POST("/submit", func(c *gin.Context) {
     // 获取数组或 Map
     hobbies := c.PostFormArray("hobbies")
     c.JSON(200, gin.H{"name": name, "email": email})
-})[3,9](@ref)。    
+})。    
 
 
 
@@ -47,10 +47,10 @@ r.POST("/submit", func(c *gin.Context) {
 直接读取请求体字节流
 body, _ := c.GetRawData()
 var data map[string]interface{}
-json.Unmarshal(body, &data)[9,11](@ref)。
+json.Unmarshal(body, &data)。
 
 
-JSON 数据​​
+JSON 数据
 使用 ShouldBindJSON绑定到结构体
 if err := c.ShouldBindJSON(&user); err != nil {
     c.JSON(400, gin.H{"error": err.Error()})
@@ -73,7 +73,7 @@ r.POST("/upload", func(c *gin.Context) {
     out, _ := os.Create(header.Filename)
     io.Copy(out, file)
     c.String(200, "上传成功")
-})[4,9](@ref)。
+})。
 
 
 
@@ -101,3 +101,14 @@ ShouldBindQuery(&obj)：仅绑定 URL Query 参数（适用于 GET 请求） 仅
 ShouldBindYAML(&obj)：绑定 YAML 数据
 
 Gin 返回的均为字符串，需手动转换类型
+
+
+
+
+
+
+
+c *gin.Context
+DB.WithContext(ctx)
+创建带有上下文的数据库实例，方便管理数据库操作的生命周期，上下文可以控制数据库操作：超时或取消，避免请求结束但数据库操作还在继续
+链路追踪 - 在分布式系统中传递追踪信息，就类似传参

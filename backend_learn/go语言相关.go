@@ -355,6 +355,40 @@ go 与其他语言进行对比，？
 
 
 
+
+
+
+//------------------------ 字符串 （string） -------------------------
+// runtime/string.go 中的实际定义
+type stringStruct struct {
+    str unsafe.Pointer
+    len int
+}
+string是不可变的
+
+// 编译器会优化为单个字符串
+s := "a" + "b" + "c" + "d"
+
+// 但这种情况不会优化
+vars := []string{"a", "b", "c"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //------------------------ json -------------------------
 json.Unmarshal([]byte(result), &listing) 
 []byte(result) 将字符串 result 转换为字节切片
