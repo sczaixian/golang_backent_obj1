@@ -12,14 +12,41 @@
 
 
 
+unsafe.Pointer 是 Go 语言中的一个特殊类型，它允许你进行低级别的内存操作，绕过 Go 的类型安全系统。
+
+
+鸭子类型：不要求类型显示地声明实现了某个接口，只要实现了相关的方法即可
+
+
+----------------------- 切片 ---------------------------------
+slice := make([]int, 5)           // 长度和容量都是 5
+slice := make([]int, 3, 5)                 // 三个元素 容量5
+slice := []string{"a", "b", "c"}  // 长度和容量都是3
+slice := []int{10,20,30,40}       // 长度和容量都是4
+slice := []string{99:""}          // 使用空字符串初始化第100个元素
+
+切片、数组、map、字符串：返回 2 个值; channel 返回一个值
+for i,v := range s 
+for i,_ := range s 
+for i := range s 
 
 
 
 
 
+// ----------------------- hashmap ---------------------------------
+现成不安全的
+B 是 buckets 数组的长度的对数，也就是说 buckets 数组的长度就是 2^B    
+ageMp := make(map[string]int)
+ageMp := make(map[string]int, 8)   // 指定 map 长度
+var ageMp map[string]int           // ageMp 为 nil，不能向其添加元素，会直接panic
 
 
+h := make(map[string]int)
+fmt.Println(h["a"])        //  返回 0   不是 nil
 
+不能对key 或 value 取地址，不能通过编译
+m1 == m2  只能比较 map 是否为 nil。   一般都是遍历逐个比较
 
 
 // ----------------------- 内存对齐 ---------------------------------
@@ -336,11 +363,15 @@ panic 出现的场景还有：
 
 
 5. Channel有哪些常见的使用场景   ------  deepseek
-任务分发和处理：可以通过Channel将任务分发给多个goroutine进行处理，并将处理结果发送回主goroutine进行汇总和处理。
-并发控制：可以通过Channel来进行信号量控制，限制并发的数量，避免资源竞争和死锁等问题。
-数据流处理：可以通过Channel实现数据流的处理，将数据按照一定的规则传递给不同的goroutine进行处理，提高并发处理效率。
-事件通知和处理：可以通过Channel来实现事件的通知和处理，将事件发送到Channel中，让订阅了该Channel的goroutine进行相应的处理。
-异步处理：可以通过Channel实现异步的处理，将任务交给其他goroutine处理，自己继续执行其他任务，等待处理结果时再从Channel中获取。
+并发控制：带缓冲区channel
+解耦生产者消费者
+定时任务、停止信号
+
+// 任务分发和处理：可以通过Channel将任务分发给多个goroutine进行处理，并将处理结果发送回主goroutine进行汇总和处理。
+// 并发控制：可以通过Channel来进行信号量控制，限制并发的数量，避免资源竞争和死锁等问题。
+// 数据流处理：可以通过Channel实现数据流的处理，将数据按照一定的规则传递给不同的goroutine进行处理，提高并发处理效率。
+// 事件通知和处理：可以通过Channel来实现事件的通知和处理，将事件发送到Channel中，让订阅了该Channel的goroutine进行相应的处理。
+// 异步处理：可以通过Channel实现异步的处理，将任务交给其他goroutine处理，自己继续执行其他任务，等待处理结果时再从Channel中获取。
 
 
 
@@ -352,9 +383,30 @@ panic 出现的场景还有：
 go 与其他语言进行对比，？
 
 
+关闭 channel 的过程 
+1. 检查 channel 是否存在 =nil？
+2. lock(&c.lock)
+3. 标志位 置 1 c.closed = 1
+4. 发送者 sender 唤醒 panic
+5. 接收 receiver 唤醒 接收0值
+
+从一个有缓冲的 channel 里读数据，当 channel 被关闭，依然能读出有效值。只有当返回的 ok 为 false 时，读出的数据才是无效的
 
 
+在不改变 channel 自身状态的情况下，无法获知一个 channel 是否关闭。
+关闭一个 closed channel 会导致 panic。所以，如果关闭 channel 的一方在不知道 channel 是否处于关闭状态时就去贸然关闭 channel 是很危险的事情。
+向一个 closed channel 发送数据会导致 panic。所以，如果向 channel 发送数据的一方不知道 channel 是否处于关闭状态时就去贸然向 channel 发送数据是很危险的事情。
 
+优雅关闭channel
+don’t close a channel from the receiver side and don’t close a channel if the channel has multiple concurrent senders.
+don’t close (or send values to) closed channels.
+
+只有一个sender的时候由sender关闭channel
+
+N 个 sender，一个 reciver   由 receiver 或者 协调者 发送关闭信号（额外增加一个信号）sender 同时监听这个关闭channel
+N 个 sender， M 个 receiver   增加一个协调者和一个 channel （容量1）只接受第一个，所有的sender和receiver都监听这个 channel
+
+操作 channel 的协程一直处于阻塞状态，此时会产生 channel 泄漏
 
 
 
@@ -426,6 +478,12 @@ time.Hour（小时）
 
 
 
+---------------------- 内存序 -------------------
+1. channel 
+2. sync.Mutex
+3. waitGroup 
+4. atomic
+5. sync.Once
 
 
 
@@ -437,13 +495,6 @@ time.Hour（小时）
 
 
 
-
------------------------ 切片 ---------------------------------
-slice := make([]int, 5)           // 长度和容量都是 5
-slice := make([]int, 3, 5)                 // 三个元素 容量5
-slice := []string{"a", "b", "c"}  // 长度和容量都是3
-slice := []int{10,20,30,40}       // 长度和容量都是4
-slice := []string{99:""}          // 使用空字符串初始化第100个元素
 
 
 
