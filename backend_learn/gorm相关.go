@@ -7,7 +7,7 @@ package backendlearn
 
 
 
-Clauses 的底层原理​​
+Clauses 的底层原理
 GORM 执行操作（如 Find）时，会创建 *gorm.Statement 对象，
 所有链式调用（如 Where、Limit）本质是向该对象添加子句。
 Clauses() 方法允许注入自定义子句生成器，最终拼接为完整 SQL 
@@ -16,25 +16,25 @@ Clauses() 方法允许注入自定义子句生成器，最终拼接为完整 SQL
 
 
 
-处理数据冲突（UPSERT）​​
+处理数据冲突（UPSERT）
 当插入数据时，若主键或唯一索引冲突，自动转为更新操作。
-示例​​：批量更新用户分数，冲突时更新 score 字段
+示例：批量更新用户分数，冲突时更新 score 字段
 db.Clauses(clause.OnConflict{
     Columns:   []clause.Column{{Name: "id"}}, // 冲突字段
     DoUpdates: clause.AssignmentColumns([]string{"score"}), // 冲突时更新的字段
 }).Create(&users)
-适用场景​​：避免循环逐条更新，一次性完成批量插入或更新
+适用场景：避免循环逐条更新，一次性完成批量插入或更新
 
 
 		
-实现行级锁定（并发控制）​​
+实现行级锁定（并发控制）
 高并发下保证数据一致性，如悲观锁	
-​示例​​：查询用户时加排他锁（FOR UPDATE）	
+示例：查询用户时加排他锁（FOR UPDATE）	
 db.Clauses(clause.Locking{Strength: "UPDATE"}).Find(&users)
-适用场景​​：订单支付时锁定库存，防止超卖
+适用场景：订单支付时锁定库存，防止超卖
 
 
-// 优化软删除查询性能​​     TODO:
+// 优化软删除查询性能     TODO:
 GORM 默认软删除使用 deleted_at IS NULL，可能导致索引失效。通过重写 QueryClauses 优化
 func (DeletedAt) QueryClauses(f *schema.Field) []clause.Interface {
     return []clause.Interface{BeautifulSoftDeleteQueryClause{}}
@@ -44,9 +44,9 @@ func (DeletedAt) QueryClauses(f *schema.Field) []clause.Interface {
 
 
 
-实际开发中的经典案例​​
+实际开发中的经典案例
 
-1. ​​动态分页封装​
+1. 动态分页封装
 type Pagination struct{ Page, PageSize int }
 func (p *Pagination) ModifyStatement(stmt *gorm.Statement) {
     stmt.DB.Offset((p.Page-1)*p.PageSize).Limit(p.PageSize)
@@ -58,7 +58,7 @@ db.Clauses(&Pagination{Page: 2, PageSize: 10}).Find(&users)
 
 
 
-子查询嵌套​
+子查询嵌套
 subQuery := db.Model(&Order{}).Select("AVG(amount)")
 db.Where("amount > (?)", subQuery).Find(&orders)
 

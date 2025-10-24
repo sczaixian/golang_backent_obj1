@@ -1,0 +1,65 @@
+
+get：
+/api/v1/user/0xd96AF416b2060500f828A3f31e617F15CBEA1e4b/login-message
+{
+    "trace_id": "",
+    "code": 200,
+    "msg": "Successful",
+    "data": {
+        "address": "0xd96AF416b2060500f828A3f31e617F15CBEA1e4b",
+        "message": "Welcome to EasySwap!\nNonce:d5fbffe8-f189-4356-84b4-d29af883cc0b"
+    }
+}
+
+post:
+/api/v1/user/login
+request
+{
+    "chain_id":11155111,
+    "message":"Welcome to EasySwap!\nNonce:d5fbffe8-f189-4356-84b4-d29af883cc0b",
+    "signature":"",
+    "address":"0xd96AF416b2060500f828A3f31e617F15CBEA1e4b"
+}
+SELECT id,address,is_allowed FROM `ob_user` WHERE address = '0xd96AF416b2060500f828A3f31e617F15CBEA1e4b'"}
+INSERT INTO `ob_user` (`address`,`is_allowed`,`is_signed`,`create_time`,`update_time`) VALUES ('0xd96AF416b2060500f828A3f31e617F15CBEA1e4b',false,true,1760879656924,1760879656924)"}
+response
+{
+    "trace_id": "",
+    "code": 200,
+    "msg": "Successful",
+    "data": {
+        "result": {
+            "token": "3785e2269dd2e3f3d587ca87fd2cd43ca1d59a35e92a9d94314602ad6f89217c004dde7e4da39d7ab433b98dee094ff579484e35304da0abd5bfd01319c052de99bbd36171dee1426e49e8414ec00d39cf3dbe4d3a7b1dc23a38c44bdd746b4d",
+            "is_allowed": false
+        }
+    }
+}
+
+
+/api/v1/user/0xd96AF416b2060500f828A3f31e617F15CBEA1e4b/sig-status
+{
+    "trace_id": "",
+    "code": 200,
+    "msg": "Successful",
+    "data": {
+        "is_signed": true
+    }
+}
+
+/api/v1/collections/0xd96AF416b2060500f828A3f31e617F15CBEA1e4b
+{
+    "trace_id": "",
+    "code": 10002,
+    "msg": "Parameter is illegal",
+    "data": null
+}
+
+
+
+/api/v1/activities
+{
+    "trace_id": "",
+    "code": 7000,
+    "msg": "Filter param is nil.",
+    "data": null
+}
